@@ -2,6 +2,7 @@
 #include <cuda_runtime.h>
 #include <cuda.h>
 #include <cstring>
+#include <mutex>
 
 namespace waterSim::utils{
     [[maybe_unused]] bool transferCtxInit(transferCtx& ctx, size_t ptrSize){

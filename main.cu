@@ -1,7 +1,8 @@
 #include <iostream>
-#include "src/Utils/utils.h"
+#include <fmt/format.h>
+#include "src/utils.h"
 
 int main() {
-    std::cout << "Hello, World!" << std::endl;
+    waterSim::utils::print("Hello, World!");
     return 0;
 }
