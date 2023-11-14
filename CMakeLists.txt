@@ -48,8 +48,17 @@ pkg_check_modules(SDL2 REQUIRED IMPORTED_TARGET sdl2)
 add_subdirectory(bgfx.cmake)
 
 add_executable(CudaWaterSim src/utils.h
-        src/utils.cu
-        main.cu)
+        src/sim/sim.cu
+        src/sim/sim.cuh
+        src/sim/vec3.cu
+        src/sim/vec3.cuh
+        main.cu
+        src/sim/point.cu
+        src/sim/point.cuh
+        src/sim/modifier.cuh
+        src/sim/collisionI.cuh
+        src/sim/controller.cuh
+        src/sim/controller.cu)
 
 set_target_properties(CudaWaterSim PROPERTIES
         CUDA_SEPARABLE_COMPILATION ON)

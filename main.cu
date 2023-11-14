@@ -1,8 +1,10 @@
 #include <iostream>
 #include <fmt/format.h>
 #include "src/utils.h"
+#include "src/sim/sim.cuh"
+
+using waterSim::utils::print;
 
 int main() {
-    waterSim::utils::print("Hello, World!");
-    return 0;
+    print("Doing test of sum kernel\n");
 }
