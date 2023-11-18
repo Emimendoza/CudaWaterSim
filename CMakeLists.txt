@@ -4,6 +4,9 @@ project(CudaWaterSim CUDA CXX)
 set(CMAKE_CUDA_STANDARD 17)
 set(CMAKE_CXX_STANDARD 17)
 
+# Define if you want to use double precision
+add_compile_definitions(DOUBLE_PRECISION)
+
 include(CheckIncludeFileCXX)
 check_include_file_cxx(format HAS_CXX_FORMAT)
 
@@ -58,7 +61,8 @@ add_executable(CudaWaterSim src/utils.h
         src/sim/modifier.cuh
         src/sim/collisionI.cuh
         src/sim/controller.cuh
-        src/sim/controller.cu)
+        src/sim/controller.cu
+        src/sim/floating.h)
 
 set_target_properties(CudaWaterSim PROPERTIES
         CUDA_SEPARABLE_COMPILATION ON)

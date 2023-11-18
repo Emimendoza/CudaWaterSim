@@ -1,23 +1,24 @@
 #pragma once
 
+#include "floating.h"
 namespace waterSim{
     class [[maybe_unused]] vec3{
         public:
-            float x, y, z;
-            __host__ __device__ vec3(float x, float y, float z);
+            FLOAT x, y, z;
+            __host__ __device__ vec3(FLOAT x, FLOAT y, FLOAT z);
             __host__ __device__ vec3();
             __host__ __device__ vec3 operator+(const vec3 &other) const;
             __host__ __device__ vec3 operator-(const vec3 &other) const;
-            __host__ __device__ vec3 operator*(const float &other) const;
-            __host__ __device__ vec3 operator/(const float &other) const;
+            __host__ __device__ vec3 operator*(const FLOAT &other) const;
+            __host__ __device__ vec3 operator/(const FLOAT &other) const;
             __host__ __device__ vec3 operator+=(const vec3 &other);
             __host__ __device__ vec3 operator-=(const vec3 &other);
-            __host__ __device__ vec3 operator*=(const float &other);
-            __host__ __device__ vec3 operator/=(const float &other);
+            __host__ __device__ vec3 operator*=(const FLOAT &other);
+            __host__ __device__ vec3 operator/=(const FLOAT &other);
             [[maybe_unused]] __host__ __device__ vec3 hadamard(const vec3 &other) const;
-            [[maybe_unused]] __host__ __device__ float dot(const vec3 &other) const;
+            [[maybe_unused]] __host__ __device__ FLOAT dot(const vec3 &other) const;
             [[maybe_unused]] __host__ __device__ vec3 cross(const vec3 &other) const;
-            __host__ __device__ float length() const;
+            __host__ __device__ FLOAT length() const;
             [[maybe_unused]] __host__ __device__ vec3 normalize() const;
             __host__ __device__ vec3 operator-() const;
     };
