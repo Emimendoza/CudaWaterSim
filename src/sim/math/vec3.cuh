@@ -15,6 +15,10 @@ namespace waterSim{
             __host__ __device__ vec3 operator-=(const vec3 &other);
             __host__ __device__ vec3 operator*=(const FLOAT &other);
             __host__ __device__ vec3 operator/=(const FLOAT &other);
+            /**
+             * @return The sum of all components
+             */
+            [[maybe_unused]] __host__ __device__ FLOAT sum() const;
             [[maybe_unused]] __host__ __device__ vec3 hadamard(const vec3 &other) const;
             [[maybe_unused]] __host__ __device__ FLOAT dot(const vec3 &other) const;
             [[maybe_unused]] __host__ __device__ vec3 cross(const vec3 &other) const;

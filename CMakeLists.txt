@@ -53,8 +53,8 @@ add_subdirectory(bgfx.cmake)
 add_executable(CudaWaterSim src/utils.h
         src/sim/sim.cu
         src/sim/sim.cuh
-        src/sim/vec3.cu
-        src/sim/vec3.cuh
+        src/sim/math/vec3.cu
+        src/sim/math/vec3.cuh
         main.cu
         src/sim/point.cu
         src/sim/point.cuh
@@ -62,11 +62,12 @@ add_executable(CudaWaterSim src/utils.h
         src/sim/collisionI.cuh
         src/sim/controller.cuh
         src/sim/controller.cu
-        src/sim/floating.h
+        src/sim/math/floating.h
         src/sim/colliders/always.cuh
         src/sim/colliders/spherical.cuh
         src/sim/colliders/planar.cuh
-        src/sim/quaternion.cuh)
+        src/sim/math/quaternion.cuh
+        src/sim/math/quaternion.cu)
 
 set_target_properties(CudaWaterSim PROPERTIES
         CUDA_SEPARABLE_COMPILATION ON)

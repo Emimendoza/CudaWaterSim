@@ -2,7 +2,7 @@
 
 #include "../collisionI.cuh"
 #include "../point.cuh"
-#include "../floating.h"
+#include "../math/floating.h"
 
 namespace waterSim::sim::colliders{
     class spherical : public collisionI{

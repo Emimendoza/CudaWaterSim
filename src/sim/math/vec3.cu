@@ -71,4 +71,8 @@ namespace waterSim{
     __host__ __device__ vec3 vec3::operator-() const{
         return {-this->x, -this->y, -this->z};
     }
+
+    __host__ __device__ FLOAT vec3::sum() const {
+        return this->x + this->y + this->z;
+    }
 }

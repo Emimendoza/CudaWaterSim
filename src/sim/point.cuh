@@ -1,6 +1,6 @@
 #pragma once
-#include "vec3.cuh"
-#include "floating.h"
+#include "math/vec3.cuh"
+#include "math/floating.h"
 
 namespace waterSim::sim {
     class point {

@@ -1,5 +1,5 @@
 #pragma once
-#include "vec3.cuh"
+#include "math/vec3.cuh"
 #include "point.cuh"
 
 namespace waterSim::sim{

@@ -2,7 +2,7 @@
 #include <cuda_runtime.h>
 #include "point.cuh"
 #include "modifierI.cuh"
-#include "floating.h"
+#include "math/floating.h"
 
 
 namespace waterSim::sim{

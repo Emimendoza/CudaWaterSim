@@ -1,9 +1,9 @@
 #pragma once
 
-#include "../floating.h"
+#include "../math/floating.h"
 #include "../point.cuh"
 #include "../collisionI.cuh"
-#include "../quaternion.cuh"
+#include "../math/quaternion.cuh"
 
 namespace waterSim::sim::colliders{
     class planar : public collisionI{
