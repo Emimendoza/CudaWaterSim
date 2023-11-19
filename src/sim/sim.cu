@@ -2,7 +2,7 @@
 #include "floating.h"
 
 namespace waterSim::sim{
-    __global__ void modifyPoints(point *points, modifier **modifiers, size_t modifierCount, size_t pointCount){
+    __global__ void modifyPoints(point *points, modifierI **modifiers, size_t modifierCount, size_t pointCount){
         size_t i = blockIdx.x * blockDim.x + threadIdx.x;
         if (i >= pointCount) return;
         for (size_t j = 0; j < modifierCount; j++){

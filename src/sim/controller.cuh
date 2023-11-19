@@ -2,7 +2,7 @@
 
 #include <vector>
 #include "point.cuh"
-#include "modifier.cuh"
+#include "modifierI.cuh"
 #include "floating.h"
 
 namespace waterSim::sim{
@@ -11,8 +11,8 @@ namespace waterSim::sim{
         controller(size_t pointCount, float radius);
         ~controller();
 
-        void addModifier(modifier *m);
-        void removeModifier(modifier *m);
+        void addModifier(modifierI *m);
+        void removeModifier(modifierI *m);
 
         void syncDeviceToHost();
         void syncHostToDevice();
@@ -20,8 +20,8 @@ namespace waterSim::sim{
         point *pointsHost = nullptr;
         vec3 *pointsPosHostActive;
         point *pointsDevice = nullptr;
-        std::vector<modifier*> modifiersHost;
-        modifier** modifiersDevice = nullptr;
+        std::vector<modifierI*> modifiersHost;
+        modifierI** modifiersDevice = nullptr;
         size_t modifierArraySize = 0;
         size_t pointCount;
 

@@ -58,11 +58,15 @@ add_executable(CudaWaterSim src/utils.h
         main.cu
         src/sim/point.cu
         src/sim/point.cuh
-        src/sim/modifier.cuh
+        src/sim/modifierI.cuh
         src/sim/collisionI.cuh
         src/sim/controller.cuh
         src/sim/controller.cu
-        src/sim/floating.h)
+        src/sim/floating.h
+        src/sim/colliders/always.cuh
+        src/sim/colliders/spherical.cuh
+        src/sim/colliders/planar.cuh
+        src/sim/quaternion.cuh)
 
 set_target_properties(CudaWaterSim PROPERTIES
         CUDA_SEPARABLE_COMPILATION ON)

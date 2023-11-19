@@ -19,19 +19,19 @@ waterSim::sim::controller::~controller() {
     cudaFree(modifiersDevice);
 }
 
-void waterSim::sim::controller::addModifier(waterSim::sim::modifier *m) {
+void waterSim::sim::controller::addModifier(waterSim::sim::modifierI *m) {
     modifiersHost.push_back(m);
     if (modifierArraySize < modifiersHost.size()){
         modifierArraySize = modifiersHost.size()*2;
         cudaFree(modifiersDevice);
-        cudaMalloc(&modifiersDevice, sizeof(modifier*) * modifierArraySize);
+        cudaMalloc(&modifiersDevice, sizeof(modifierI*) * modifierArraySize);
     }
-    cudaMemcpy(modifiersDevice, modifiersHost.data(), sizeof(modifier*) * modifiersHost.size(), cudaMemcpyHostToDevice);
+    cudaMemcpy(modifiersDevice, modifiersHost.data(), sizeof(modifierI*) * modifiersHost.size(), cudaMemcpyHostToDevice);
 }
 
-void waterSim::sim::controller::removeModifier(waterSim::sim::modifier *m) {
+void waterSim::sim::controller::removeModifier(waterSim::sim::modifierI *m) {
     modifiersHost.erase(std::remove(modifiersHost.begin(), modifiersHost.end(), m), modifiersHost.end());
-    cudaMemcpy(modifiersDevice, modifiersHost.data(), sizeof(modifier*) * modifiersHost.size(), cudaMemcpyHostToDevice);
+    cudaMemcpy(modifiersDevice, modifiersHost.data(), sizeof(modifierI*) * modifiersHost.size(), cudaMemcpyHostToDevice);
 }
 
 void waterSim::sim::controller::syncDeviceToHost() {
