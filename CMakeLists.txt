@@ -7,6 +7,16 @@ set(CMAKE_CXX_STANDARD 17)
 # Define if you want to use double precision
 # add_compile_definitions(DOUBLE_PRECISION)
 
+if(CMAKE_BUILD_TYPE STREQUAL "Release")
+    message(STATUS "Building in release mode")
+    set(CMAKE_CUDA_FLAGS "${CMAKE_CUDA_FLAGS} -O3 -Xptxas -O3 -Xcompiler -O3,-s,-flto")
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O3 -s -flto")
+else()
+    message(STATUS "Building in debug mode")
+    set(CMAKE_CUDA_FLAGS "${CMAKE_CUDA_FLAGS} -g -G")
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g")
+endif()
+
 include(CheckIncludeFileCXX)
 check_include_file_cxx(format HAS_CXX_FORMAT)
 

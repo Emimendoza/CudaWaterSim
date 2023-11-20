@@ -19,12 +19,12 @@ namespace waterSim::sim{
     __host__ __device__ vec3 vec3::operator-(const vec3 &other) const{
         return {this->x - other.x, this->y - other.y, this->z - other.z};
     }
-    template<typename T>
-    __host__ __device__ vec3 vec3::operator*(const T &other) const{
+    
+    __host__ __device__ vec3 vec3::operator*(const FLOAT &other) const{
         return {this->x * other, this->y * other, this->z * other};
     }
-    template<typename T>
-    __host__ __device__ vec3 vec3::operator/(const T &other) const{
+    
+    __host__ __device__ vec3 vec3::operator/(const FLOAT &other) const{
         return {this->x / other, this->y / other, this->z / other};
     }
     __host__ __device__ vec3 vec3::operator+=(const vec3 &other){
@@ -39,15 +39,15 @@ namespace waterSim::sim{
         this->z -= other.z;
         return *this;
     }
-    template<typename T>
-    __host__ __device__ vec3 vec3::operator*=(const T &other){
+    
+    __host__ __device__ vec3 vec3::operator*=(const FLOAT &other){
         this->x *= other;
         this->y *= other;
         this->z *= other;
         return *this;
     }
-    template<typename T>
-    __host__ __device__ vec3 vec3::operator/=(const T &other){
+    
+    __host__ __device__ vec3 vec3::operator/=(const FLOAT &other){
         this->x /= other;
         this->y /= other;
         this->z /= other;
@@ -84,23 +84,23 @@ namespace waterSim::sim{
         return {ABS(this->x), ABS(this->y), ABS(this->z)};
     }
 
-    template<typename T>
-    __host__ __device__ vec3 vec3::operator+(const T &other) const {
+    
+    __host__ __device__ vec3 vec3::operator+(const FLOAT &other) const {
         return {this->x + other, this->y + other, this->z + other};
     }
-    template<typename T>
-    __host__ __device__ vec3 vec3::operator-(const T &other) const {
+    
+    __host__ __device__ vec3 vec3::operator-(const FLOAT &other) const {
         return {this->x - other, this->y - other, this->z - other};
     }
-    template<typename T>
-    __host__ __device__ vec3 vec3::operator+=(const T &other) const {
+    
+    __host__ __device__ vec3 vec3::operator+=(const FLOAT &other) {
         this->x += other;
         this->y += other;
         this->z += other;
         return *this;
     }
-    template<typename T>
-    __host__ __device__ vec3 vec3::operator-=(const T &other) const {
+    
+    __host__ __device__ vec3 vec3::operator-=(const FLOAT &other) {
         this->x -= other;
         this->y -= other;
         this->z -= other;

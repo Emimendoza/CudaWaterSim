@@ -11,24 +11,16 @@ namespace waterSim::sim{
         __host__ __device__ vec2 operator+(const vec2 &other) const;
         __host__ __device__ vec2 operator-(const vec2 &other) const;
         __host__ __device__ vec2 operator-() const;
-        template<typename T>
-        __host__ __device__ vec2 operator+(const T &other) const;
-        template<typename T>
-        __host__ __device__ vec2 operator-(const T &other) const;
-        template<typename T>
-        __host__ __device__ vec2 operator*(const T &other) const;
-        template<typename T>
-        __host__ __device__ vec2 operator/(const T &other) const;
-        template<typename T>
-        __host__ __device__ vec2 operator+=(const T &other) const;
-        template<typename T>
-        __host__ __device__ vec2 operator-=(const T &other) const;
+        __host__ __device__ vec2 operator+(const FLOAT &other) const;
+        __host__ __device__ vec2 operator-(const FLOAT &other) const;
+        __host__ __device__ vec2 operator*(const FLOAT &other) const;
+        __host__ __device__ vec2 operator/(const FLOAT &other) const;
+        __host__ __device__ vec2 operator+=(const FLOAT &other) const;
+        __host__ __device__ vec2 operator-=(const FLOAT &other) const;
         __host__ __device__ vec2 operator+=(const vec2 &other);
         __host__ __device__ vec2 operator-=(const vec2 &other);
-        template<typename T>
-        __host__ __device__ vec2 operator*=(const T &other);
-        template<typename T>
-        __host__ __device__ vec2 operator/=(const T &other);
+        __host__ __device__ vec2 operator*=(const FLOAT &other);
+        __host__ __device__ vec2 operator/=(const FLOAT &other);
         /**
          * @return The sum of all components
          */

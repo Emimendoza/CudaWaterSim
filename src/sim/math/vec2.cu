@@ -23,33 +23,33 @@ namespace waterSim::sim{
         return {-this->x, -this->y};
     }
     
-    template<typename T>
-    __host__ __device__ vec2 vec2::operator+(const T &other) const {
+    
+    __host__ __device__ vec2 vec2::operator+(const FLOAT &other) const {
         return {this->x + other, this->y + other};
     }
     
-    template<typename T>
-    __host__ __device__ vec2 vec2::operator-(const T &other) const {
+    
+    __host__ __device__ vec2 vec2::operator-(const FLOAT &other) const {
         return {this->x - other, this->y - other};
     }
     
-    template<typename T>
-    __host__ __device__ vec2 vec2::operator*(const T &other) const {
+    
+    __host__ __device__ vec2 vec2::operator*(const FLOAT &other) const {
         return {this->x * other, this->y * other};
     }
     
-    template<typename T>
-    __host__ __device__ vec2 vec2::operator/(const T &other) const {
+    
+    __host__ __device__ vec2 vec2::operator/(const FLOAT &other) const {
         return {this->x / other, this->y / other};
     }
     
-    template<typename T>
-    __host__ __device__ vec2 vec2::operator+=(const T &other) const {
+    
+    __host__ __device__ vec2 vec2::operator+=(const FLOAT &other) const {
         return {this->x + other, this->y + other};
     }
     
-    template<typename T>
-    __host__ __device__ vec2 vec2::operator-=(const T &other) const {
+    
+    __host__ __device__ vec2 vec2::operator-=(const FLOAT &other) const {
         return {this->x - other, this->y - other};
     }
     
@@ -65,15 +65,15 @@ namespace waterSim::sim{
         return *this;
     }
     
-    template<typename T>
-    __host__ __device__ vec2 vec2::operator*=(const T &other) {
+    
+    __host__ __device__ vec2 vec2::operator*=(const FLOAT &other) {
         this->x *= other;
         this->y *= other;
         return *this;
     }
     
-    template<typename T>
-    __host__ __device__ vec2 vec2::operator/=(const T &other) {
+    
+    __host__ __device__ vec2 vec2::operator/=(const FLOAT &other) {
         this->x /= other;
         this->y /= other;
         return *this;

@@ -22,12 +22,13 @@ namespace waterSim::sim{
 
     __host__ __device__ quaternion::quaternion(const vec3 &euler) {
         // From https://en.wikipedia.org/wiki/Conversion_between_quaternions_and_Euler_angles
-        FLOAT cr = COS(euler.x / 2);
-        FLOAT sr = SIN(euler.x / 2);
-        FLOAT cp = COS(euler.y / 2);
-        FLOAT sp = SIN(euler.y / 2);
-        FLOAT cy = COS(euler.z / 2);
-        FLOAT sy = SIN(euler.z / 2);
+        vec3 halfEuler = euler / 2;
+        FLOAT cr = COS(halfEuler.x);
+        FLOAT sr = SIN(halfEuler.x);
+        FLOAT cp = COS(halfEuler.y);
+        FLOAT sp = SIN(halfEuler.y);
+        FLOAT cy = COS(halfEuler.z);
+        FLOAT sy = SIN(halfEuler.z);
         this->w = cr * cp * cy + sr * sp * sy;
         this->v.x = sr * cp * cy - cr * sp * sy;
         this->v.y = cr * sp * cy + sr * cp * sy;
