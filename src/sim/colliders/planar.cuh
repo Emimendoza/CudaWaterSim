@@ -10,9 +10,12 @@ namespace waterSim::sim::colliders{
     public:
         FLOAT height, width;
         quaternion rot;
-        explicit planar(FLOAT height, FLOAT width, quaternion rot) : height(height), width(width), rot(rot){}
+        explicit planar(vec3 pos, FLOAT height, FLOAT width, quaternion rot) : collisionI(pos), height(height),
+                                                                               width(width), rot(rot) {}
         __host__ __device__ bool isColliding(const point& p) const override{
-            return false; // TODO: Implement
+            vec3 localPos = rot.rotate(p.pos - pos);
+            return localPos.x > -width / 2 - p.radius && localPos.x < width / 2 + p.radius &&
+                   localPos.y > -height / 2 - p.radius && localPos.y < height / 2 + p.radius;
         }
     };
 }

@@ -43,9 +43,11 @@ namespace waterSim::sim{
         euler.x = ATAN2(sinrCosp, cosrCosp);
 
         // Pitch
-        FLOAT sinp = SQRT(1 + 2 *(this->w * this->v.y - this-> v.x * this->v.z));
-        FLOAT cosp = SQRT(1 - 2 * (this->w * this->v.y - this-> v.x * this->v.z));
-        euler.y = 2 * ATAN2(sinp, cosp) - M_PI / 2;
+        FLOAT sinp = 2 * (this->w * this->v.y + this->v.z * this->v.x);
+        if (ABS(sinp) >= 1)
+            euler.y = COPYSIGN(M_PI / 2, sinp); // use 90 degrees if out of range
+        else
+            euler.y = ASIN(sinp);
 
         // Yaw
         FLOAT sinyCosp = 2 * (this->w * this->v.z + this->v.x * this->v.y);

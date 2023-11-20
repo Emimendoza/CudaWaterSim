@@ -6,6 +6,7 @@
 namespace waterSim::sim::colliders{
     class always : public collisionI{
     public:
+        explicit always(vec3 pos) : collisionI(pos){}
         __host__ __device__ bool isColliding(const point& p) const override{
             return true;
         }
