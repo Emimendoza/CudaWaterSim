@@ -22,6 +22,24 @@ namespace waterSim::sim::colliders{
             FLOAT r = UNIFORM_RANDOM(&state) * radius;
             return pos + vec3(SIN(phi) * COS(theta), SIN(phi) * SIN(theta), COS(phi)) * r;
         }
+        __host__ __device__ vec3 tangent(const vec3& p) const override{
+            // Calculate the radius vector
+            vec3 radiusVector = p - pos;
+
+            // Calculate the normal vector of the sphere at the point of contact
+            vec3 normal = radiusVector.normalize();
+
+            // Project p onto the tangent plane
+            vec3 projectedP = p - normal * p.dot(normal);
+
+            // Calculate the tangent vector
+            vec3 tangent = radiusVector.cross(projectedP);
+
+            // Scale the tangent vector to have the same length as p
+            tangent = tangent.normalize() * p.length();
+
+            return tangent;
+        }
     };
 
     class sphericalHollow : public collisionI{
@@ -42,6 +60,24 @@ namespace waterSim::sim::colliders{
             FLOAT theta = UNIFORM_RANDOM(&state) * 2 * M_PI;
             FLOAT phi = UNIFORM_RANDOM(&state) * M_PI;
             return pos + vec3(SIN(phi) * COS(theta), SIN(phi) * SIN(theta), COS(phi)) * radius;
+        }
+        __host__ __device__ vec3 tangent(const vec3& p) const override{
+            // Calculate the radius vector
+            vec3 radiusVector = p - pos;
+
+            // Calculate the normal vector of the sphere at the point of contact
+            vec3 normal = radiusVector.normalize();
+
+            // Project p onto the tangent plane
+            vec3 projectedP = p - normal * p.dot(normal);
+
+            // Calculate the tangent vector
+            vec3 tangent = radiusVector.cross(projectedP);
+
+            // Scale the tangent vector to have the same length as p
+            tangent = tangent.normalize() * p.length();
+
+            return tangent;
         }
     };
 }

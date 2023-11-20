@@ -15,7 +15,9 @@
 #define ATAN2 atan2
 #define COPYSIGN copysign
 #define ABS abs
+#ifdef __CUDACC__
 #define UNIFORM_RANDOM curand_uniform_double
+#endif
 #else
 #define FLOAT float
 #define SQRT sqrtf
@@ -27,5 +29,7 @@
 #define ATAN2 atan2f
 #define COPYSIGN copysignf
 #define ABS fabsf
+#ifdef __CUDACC__
 #define UNIFORM_RANDOM curand_uniform
+#endif
 #endif

@@ -12,5 +12,6 @@ namespace waterSim::sim{
         [[maybe_unused]] [[nodiscard]] virtual __host__ __device__ bool isColliding(const point& p) const = 0;
         [[maybe_unused]] [[nodiscard]] virtual __host__ __device__ vec3 nearestNonColliding(const point& p) const = 0;
         [[maybe_unused]] [[nodiscard]] virtual __device__ vec3 getRandomPoint(curandState &state) const = 0;
+        [[maybe_unused]] [[nodiscard]] virtual __host__ __device__ vec3 tangent(const vec3& p) const = 0;
     };
 }

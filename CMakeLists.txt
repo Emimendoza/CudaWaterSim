@@ -68,7 +68,9 @@ add_executable(CudaWaterSim src/utils.h
         src/sim/colliders/planar.cuh
         src/sim/math/quaternion.cuh
         src/sim/math/quaternion.cu
-        src/sim/colliders/cuboid.cuh)
+        src/sim/colliders/cuboid.cuh
+        src/sim/math/vec2.cu
+        src/sim/math/vec2.cuh)
 
 set_target_properties(CudaWaterSim PROPERTIES
         CUDA_SEPARABLE_COMPILATION ON)

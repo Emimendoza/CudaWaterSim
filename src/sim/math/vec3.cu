@@ -2,7 +2,7 @@
 #include <cmath>
 
 
-namespace waterSim{
+namespace waterSim::sim{
     __host__ __device__ vec3::vec3(FLOAT x, FLOAT y, FLOAT z){
         this->x = x;
         this->y = y;
@@ -79,6 +79,11 @@ namespace waterSim{
     __host__ __device__ FLOAT vec3::sum() const {
         return this->x + this->y + this->z;
     }
+
+    __host__ __device__ vec3 vec3::abs() const {
+        return {ABS(this->x), ABS(this->y), ABS(this->z)};
+    }
+
     template<typename T>
     __host__ __device__ vec3 vec3::operator+(const T &other) const {
         return {this->x + other, this->y + other, this->z + other};

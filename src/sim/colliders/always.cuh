@@ -16,5 +16,8 @@ namespace waterSim::sim::colliders{
          __device__ vec3 getRandomPoint(curandStateXORWOW& state) const override{
             return pos;
         }
+        __host__ __device__ vec3 tangent(const vec3& p) const override{
+            return p;
+        }
     };
 }
