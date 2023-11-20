@@ -2,7 +2,7 @@
 #include "sim.cuh"
 #include <algorithm>
 
-waterSim::sim::controller::controller(size_t pointCount, float radius) {
+waterSim::sim::controller::controller(size_t pointCount, float radius, vec3 domainSize) : simulationDomain({}, domainSize, {}) {
     this -> pointCount = pointCount;
     pointsPosHostActive = new vec3[pointCount];
     cudaMallocHost(&pointsHost, sizeof(point) * pointCount);
@@ -44,7 +44,6 @@ void waterSim::sim::controller::syncHostToDevice() {
 
 void waterSim::sim::controller::step() {
     runModifiers();
-    runGravity();
     runCollision();
     updateGraphics();
 }

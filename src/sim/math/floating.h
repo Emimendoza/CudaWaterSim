@@ -1,5 +1,9 @@
 #pragma once
 
+#ifndef M_PI
+#define M_PI 3.141592653589793238462643383279502884197
+#endif
+
 #ifdef DOUBLE_PRECISION
 #define FLOAT double
 #define SQRT sqrt
@@ -11,6 +15,7 @@
 #define ATAN2 atan2
 #define COPYSIGN copysign
 #define ABS abs
+#define UNIFORM_RANDOM curand_uniform_double
 #else
 #define FLOAT float
 #define SQRT sqrtf
@@ -22,4 +27,5 @@
 #define ATAN2 atan2f
 #define COPYSIGN copysignf
 #define ABS fabsf
+#define UNIFORM_RANDOM curand_uniform
 #endif

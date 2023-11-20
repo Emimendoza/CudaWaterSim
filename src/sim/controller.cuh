@@ -4,11 +4,12 @@
 #include "point.cuh"
 #include "modifierI.cuh"
 #include "math/floating.h"
+#include "colliders/cuboid.cuh"
 
 namespace waterSim::sim{
     class controller{
     public:
-        controller(size_t pointCount, float radius);
+        controller(size_t pointCount, float radius, vec3 domainSize);
         ~controller();
 
         void addModifier(modifierI *m);
@@ -25,11 +26,12 @@ namespace waterSim::sim{
         size_t modifierArraySize = 0;
         size_t pointCount;
 
+        colliders::cuboidHollow simulationDomain;
+
         [[noreturn]] void mainLoop();
 
         void step();
         void runModifiers();
-        void runGravity();
         void runCollision();
         void updateGraphics();
     };

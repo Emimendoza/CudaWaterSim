@@ -9,12 +9,24 @@ namespace waterSim{
             __host__ __device__ vec3();
             __host__ __device__ vec3 operator+(const vec3 &other) const;
             __host__ __device__ vec3 operator-(const vec3 &other) const;
-            __host__ __device__ vec3 operator*(const FLOAT &other) const;
-            __host__ __device__ vec3 operator/(const FLOAT &other) const;
+            template<typename T>
+            __host__ __device__ vec3 operator+(const T &other) const;
+            template<typename T>
+            __host__ __device__ vec3 operator-(const T &other) const;
+            template<typename T>
+            __host__ __device__ vec3 operator*(const T &other) const;
+            template<typename T>
+            __host__ __device__ vec3 operator/(const T &other) const;
+            template<typename T>
+            __host__ __device__ vec3 operator+=(const T &other) const;
+            template<typename T>
+            __host__ __device__ vec3 operator-=(const T &other) const;
             __host__ __device__ vec3 operator+=(const vec3 &other);
             __host__ __device__ vec3 operator-=(const vec3 &other);
-            __host__ __device__ vec3 operator*=(const FLOAT &other);
-            __host__ __device__ vec3 operator/=(const FLOAT &other);
+            template<typename T>
+            __host__ __device__ vec3 operator*=(const T &other);
+            template<typename T>
+            __host__ __device__ vec3 operator/=(const T &other);
             /**
              * @return The sum of all components
              */

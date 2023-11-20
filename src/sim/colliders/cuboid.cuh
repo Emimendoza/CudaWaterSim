@@ -15,6 +15,17 @@ namespace waterSim::sim::colliders{
                    localPos.y > -size.y / 2 - p.radius && localPos.y < size.y / 2 + p.radius &&
                    localPos.z > -size.z / 2 - p.radius && localPos.z < size.z / 2 + p.radius;
         }
+        __host__ __device__ vec3 nearestNonColliding(const point& p) const override{
+            vec3 localPos = rot.rotate(p.pos - pos);
+            return pos + rot.rotate(vec3(localPos.x, localPos.y, localPos.z).normalize() * (size / 2 + p.radius));
+        }
+        __device__ vec3 getRandomPoint(curandState& state) const override{
+            // This should return a random point within the cuboid
+            FLOAT x = UNIFORM_RANDOM(&state) * size.x - size.x / 2;
+            FLOAT y = UNIFORM_RANDOM(&state) * size.y - size.y / 2;
+            FLOAT z = UNIFORM_RANDOM(&state) * size.z - size.z / 2;
+            return pos + rot.rotate(vec3(x, y, z));
+        }
     };
 
     class cuboidHollow : public collisionI{
@@ -31,6 +42,23 @@ namespace waterSim::sim::colliders{
                    (localPos.x < -size.x / 2 + p.radius || localPos.x > size.x / 2 - p.radius ||
                     localPos.y < -size.y / 2 + p.radius || localPos.y > size.y / 2 - p.radius ||
                     localPos.z < -size.z / 2 + p.radius || localPos.z > size.z / 2 - p.radius);
+        }
+
+        __host__ __device__ vec3 nearestNonColliding(const point& p) const override{
+            vec3 localPos = rot.rotate(p.pos - pos);
+            // This point could be INSIDE the cuboid
+            vec3 direction = vec3(localPos.x, localPos.y, localPos.z).normalize();
+            return pos + rot.rotate(direction.hadamard(size / 2) + direction * p.radius);
+        }
+        __device__ vec3 getRandomPoint(curandState& state) const override{
+            // First we get a random point within the cuboid
+            FLOAT x = UNIFORM_RANDOM(&state) * size.x - size.x / 2;
+            FLOAT y = UNIFORM_RANDOM(&state) * size.y - size.y / 2;
+            FLOAT z = UNIFORM_RANDOM(&state) * size.z - size.z / 2;
+            // We then project it onto the surface of the cuboid
+            vec3 localPos = rot.rotate(vec3(x, y, z));
+            vec3 direction = vec3(localPos.x, localPos.y, localPos.z).normalize();
+            return pos + rot.rotate(direction.hadamard(size / 2));
         }
     };
 }
