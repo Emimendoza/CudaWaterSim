@@ -1,6 +1,8 @@
 #include "controller.cuh"
 #include "sim.cuh"
+#include "../utils.h"
 #include <algorithm>
+#include "constants.h"
 
 waterSim::sim::controller::controller(size_t pointCount, float radius, vec3 domainSize) : simulationDomain({}, domainSize, {}) {
     this -> pointCount = pointCount;
@@ -13,6 +15,13 @@ waterSim::sim::controller::controller(size_t pointCount, float radius, vec3 doma
 }
 
 waterSim::sim::controller::~controller() {
+    if(simRunning){
+        utils::printES("Simulator was running when it was destroyed. Waiting for it to finish.\n");
+        simThread.join();
+    }else if (simStarted){
+        // A thread must be joined or detached this is the case where the simulation is done
+        simThread.join();
+    }
     delete[] pointsPosHostActive;
     cudaFreeHost(pointsHost);
     cudaFree(pointsDevice);
@@ -46,14 +55,83 @@ void waterSim::sim::controller::step() {
     runModifiers();
     runCollision();
     updateGraphics();
+    if(baking and bakedFrameCount%bakedFrameSkip == 0){
+        bakeFrame();
+    }
 }
 
-[[noreturn]] void waterSim::sim::controller::mainLoop() {
-    while (true){ // TODO: add exit condition
-        step();
+void waterSim::sim::controller::mainLoop(std::atomic<bool> &condition) {
+    simRunning = true;
+    while (condition){
+        if(!simPaused){
+            step();
+            continue;
+        }
+        std::this_thread::sleep_for(std::chrono::milliseconds(TIME_OUT_MS));
     }
+    simRunning = false;
 }
 
 void waterSim::sim::controller::runModifiers() {
     modifyPoints<<<(pointCount + BLOCK_SIZE - 1) / BLOCK_SIZE, BLOCK_SIZE>>>(pointsDevice, modifiersDevice, modifiersHost.size(), pointCount);
+}
+
+void waterSim::sim::controller::runCollision() {
+    // TODO: implement
+}
+
+void waterSim::sim::controller::updateGraphics() {
+    // TODO: implement
+}
+
+void waterSim::sim::controller::run(std::atomic<bool>& condition) {
+    if(simStarted){
+        utils::printES("Simulator was already started. Ignoring.\n");
+        return;
+    }
+    simStarted = true;
+    simThread = std::thread(&controller::mainLoop, this, std::ref(condition));
+}
+
+void waterSim::sim::controller::pause() {
+    if (simPaused){
+        utils::printES("Simulator was already paused. Ignoring.\n");
+        return;
+    }
+    simPaused = true;
+}
+
+void waterSim::sim::controller::resume() {
+    if (!simPaused){
+        utils::printES("Simulator was not paused. Ignoring.\n");
+        return;
+    }
+    simPaused = false;
+}
+
+void waterSim::sim::controller::bakeFrame() {
+    // TODO: implement
+}
+
+void waterSim::sim::controller::bake(size_t frameCount, size_t frameSkip) {
+    if(baking){
+        utils::printES("Simulator was already baking. Ignoring.\n");
+        return;
+    }
+    if(simStarted){
+        utils::printES("Simulator was already started. Ignoring.\n");
+        return;
+    }
+    baking = true;
+    bakedFrameCount = frameCount;
+    bakedFrameSkip = frameSkip;
+}
+
+bool waterSim::sim::controller::setBakePath(const std::string &path) {
+    if (baking){
+        utils::printES("Simulator was already baking. Ignoring.\n");
+        return false;
+    }
+    bakePath = path;
+    return true;
 }

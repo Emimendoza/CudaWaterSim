@@ -55,8 +55,8 @@ else ()
     message(STATUS "Found <format> header. No need to clone fmt.")
 endif ()
 
-find_package(PkgConfig REQUIRED)
-pkg_check_modules(SDL2 REQUIRED IMPORTED_TARGET sdl2)
+find_package(SDL2 REQUIRED)
+include_directories(${SDL2_INCLUDE_DIRS})
 
 add_subdirectory(bgfx.cmake)
 
@@ -65,7 +65,6 @@ add_executable(CudaWaterSim src/utils.h
         src/sim/sim.cuh
         src/sim/math/vec3.cu
         src/sim/math/vec3.cuh
-        main.cu
         src/sim/point.cu
         src/sim/point.cuh
         src/sim/modifierI.cuh
@@ -80,10 +79,16 @@ add_executable(CudaWaterSim src/utils.h
         src/sim/math/quaternion.cu
         src/sim/colliders/cuboid.cuh
         src/sim/math/vec2.cu
-        src/sim/math/vec2.cuh)
+        src/sim/math/vec2.cuh
+        src/ui/window.cpp
+        src/ui/window.h
+        src/main.cu
+        src/ui/platform_specific.h
+        src/sim/constants.h)
 
 set_target_properties(CudaWaterSim PROPERTIES
         CUDA_SEPARABLE_COMPILATION ON)
+target_link_libraries(CudaWaterSim PRIVATE bgfx ${SDL2_LIBRARIES})
 if(NOT HAS_CXX_FORMAT)
-    target_link_libraries(CudaWaterSim fmt)
+    target_link_libraries(CudaWaterSim PRIVATE fmt)
 endif()

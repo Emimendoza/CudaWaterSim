@@ -20,6 +20,7 @@
 // If using an incomplete implementation of the standard, use fmt
     #include <fmt/format.h>
     #include <fmt/chrono.h>
+    #include <iostream>
     #define PRINT_INTERNAL fmt::print
     #define PRINT_ERROR_INTERNAL std::cerr << fmt::format
     #define PRINT_INTERNAL_FMT_TYPE fmt::format_string<Args...>
@@ -28,6 +29,7 @@
 namespace waterSim::utils{
     namespace{
         std::mutex printMutex;
+        bool verbose = false;
     }
 
     template <typename... Args>
@@ -47,6 +49,25 @@ namespace waterSim::utils{
     [[maybe_unused]] inline void printES(PRINT_INTERNAL_FMT_TYPE fmt, Args &&... args){
         std::lock_guard<std::mutex> lock(printMutex);
         PRINT_ERROR_INTERNAL(fmt, std::forward<Args>(args)...);
+    }
+    template <typename... Args>
+    [[maybe_unused]] inline void printV(PRINT_INTERNAL_FMT_TYPE fmt, Args &&... args){
+        if(verbose){
+            PRINT_INTERNAL(fmt, std::forward<Args>(args)...);
+        }
+    }
+    template <typename... Args>
+    [[maybe_unused]] inline void printVS(PRINT_INTERNAL_FMT_TYPE fmt, Args &&... args){
+        if(verbose){
+            std::lock_guard<std::mutex> lock(printMutex);
+            PRINT_INTERNAL(fmt, std::forward<Args>(args)...);
+        }
+    }
+    [[maybe_unused]] inline void setVerbose(bool v){
+        verbose = v;
+    }
+    [[maybe_unused]] inline bool isVerbose(){
+        return verbose;
     }
 }
 

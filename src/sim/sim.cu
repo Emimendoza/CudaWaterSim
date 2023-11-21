@@ -13,6 +13,5 @@ namespace waterSim::sim{
     __global__ void velocityVerlet(point *points, size_t pointCount, FLOAT dt){
         size_t i = blockIdx.x * blockDim.x + threadIdx.x;
         if (i >= pointCount or !points[i].active) return;
-
     }
 }
