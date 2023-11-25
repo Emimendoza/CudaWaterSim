@@ -14,5 +14,6 @@ namespace waterSim::sim {
         __host__ __device__ point(vec3 pos, vec3 vel, FLOAT radius);
         __host__ __device__ explicit point(FLOAT radius);
         __host__ __device__ point();
+        __host__ vec3Primitive getPositionPrimitive() const;
     };
 }

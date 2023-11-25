@@ -63,18 +63,20 @@ namespace waterSim::ui {
         SDL_Quit();
     }
 
-    void window::mainLoop() {
-        SDL_Event event;
-        while(running){
-            bgfx::frame();
-            if(SDL_PollEvent(&event) != 0){
-                handleEvent(event);
-            }
+
+
+    void window::mainLoop(SDL_Event& event) {
+        bgfx::frame();
+        if(SDL_PollEvent(&event) != 0){
+            handleEvent(event);
         }
     }
 
     void window::run() {
-        mainLoop();
+        SDL_Event event;
+        while(running){
+            mainLoop(event);
+        }
     }
 
     void window::handleEvent(const SDL_Event &event) {
@@ -87,5 +89,10 @@ namespace waterSim::ui {
                 printES("Unhandled event: {}\n", event.type);
                 break;
         }
+    }
+
+    void window::singleFrame() {
+        SDL_Event event;
+        mainLoop(event);
     }
 }

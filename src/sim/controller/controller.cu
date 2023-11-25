@@ -1,14 +1,15 @@
 #include "controller.cuh"
-#include "sim.cuh"
-#include "../utils.h"
+#include "../sim.cuh"
+#include "../../utils.h"
 #include <algorithm>
-#include "constants.h"
+#include "../constants.h"
 
 waterSim::sim::controller::controller(size_t pointCount, float radius, vec3 domainSize) : simulationDomain({}, domainSize, {}) {
     this -> pointCount = pointCount;
     pointsPosHostActive = new vec3[pointCount];
     cudaMallocHost(&pointsHost, sizeof(point) * pointCount);
     cudaMalloc(&pointsDevice, sizeof(point) * pointCount);
+    bakedPointsBuffer = new bakedPoint[pointCount];
     for (size_t i = 0; i < pointCount; i++){
         pointsHost[i] = point(radius);
     }
@@ -22,6 +23,7 @@ waterSim::sim::controller::~controller() {
         // A thread must be joined or detached this is the case where the simulation is done
         simThread.join();
     }
+    delete[] bakedPointsBuffer;
     delete[] pointsPosHostActive;
     cudaFreeHost(pointsHost);
     cudaFree(pointsDevice);
@@ -110,7 +112,9 @@ void waterSim::sim::controller::resume() {
 }
 
 void waterSim::sim::controller::bakeFrame() {
-    // TODO: implement
+    auto pointer = pointersFree.pop();
+    cudaMemcpy(pointer, pointsDevice, sizeof(point) * pointCount, cudaMemcpyDeviceToHost);
+    pointersFilled.push(pointer);
 }
 
 void waterSim::sim::controller::bake(size_t frameCount, size_t frameSkip) {
@@ -121,6 +125,13 @@ void waterSim::sim::controller::bake(size_t frameCount, size_t frameSkip) {
     if(simStarted){
         utils::printES("Simulator was already started. Ignoring.\n");
         return;
+    }
+    for (auto & pointer : pointsBuffer){
+        if(cudaMallocHost(&pointer, sizeof(point) * pointCount) != cudaSuccess){
+            utils::printES("Failed to allocate memory for baking. Aborting.\n");
+            return;
+        }
+        pointersFree.push(pointer);
     }
     baking = true;
     bakedFrameCount = frameCount;
@@ -134,4 +145,13 @@ bool waterSim::sim::controller::setBakePath(const std::string &path) {
     }
     bakePath = path;
     return true;
+}
+
+void waterSim::sim::controller::bakeFrameToFile() {
+    auto pointer = pointersFilled.pop();
+    for (size_t i = 0; i < pointCount; i++){
+        bakedPointsBuffer[i] = bakedPoint(pointer[i].getPositionPrimitive(), pointer[i].active);
+    }
+    pointersFree.push(pointer);
+    // TODO: write to file
 }

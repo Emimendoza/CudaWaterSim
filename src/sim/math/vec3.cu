@@ -106,4 +106,15 @@ namespace waterSim::sim{
         this->z -= other;
         return *this;
     }
+
+    __host__ __device__ vec3Primitive vec3::getPrimitive() const {
+        return this->primitive;
+    }
+
+    __host__ __device__ vec3 vec3::operator=(const vec3 &other) {
+        this->x = other.x;
+        this->y = other.y;
+        this->z = other.z;
+        return *this;
+    }
 }

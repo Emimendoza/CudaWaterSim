@@ -27,4 +27,8 @@ namespace waterSim::sim {
         this->radius = radius;
         this->active = false;
     }
+
+    __host__ vec3Primitive point::getPositionPrimitive() const {
+        return this->pos.getPrimitive();
+    }
 }

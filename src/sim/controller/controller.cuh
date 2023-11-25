@@ -1,16 +1,19 @@
 #pragma once
 
 #include <vector>
-#include "point.cuh"
-#include "modifierI.cuh"
-#include "math/floating.h"
-#include "colliders/cuboid.cuh"
+#include "../point.cuh"
+#include "../modifierI.cuh"
+#include "../math/floating.h"
+#include "../colliders/cuboid.cuh"
 #include <atomic>
 #include <thread>
 #include <string>
 #include <mutex>
 #include <queue>
-#include "constants.h"
+#include "../constants.h"
+#include "threadSafeQueue.h"
+#include "file.h"
+#include "bakedPoint.h"
 
 namespace waterSim::sim{
     class controller{
@@ -32,15 +35,17 @@ namespace waterSim::sim{
         bool setBakePath(const std::string& path);
         [[nodiscard]] bool isPaused() const {return simPaused;}
     private:
-        struct bakedPoint{
-            explicit bakedPoint(const point& p) : pos(p.pos), active(p.active){}
-            vec3 pos;
-            bool active;
-        };
+
+        point* pointsBuffer[MAX_QUEUE_SIZE]{};
+        threadSafeQueue<point*> pointersFree;
+        threadSafeQueue<point*> pointersFilled;
+        bakedPoint* bakedPointsBuffer;
         std::string bakePath;
         size_t bakedFrameCount = 0;
         size_t bakedFrameSkip = 0;
         std::atomic<bool> baking = false;
+
+        void bakeFrameToFile();
 
         point *pointsHost = nullptr;
         vec3 *pointsPosHostActive;
@@ -66,36 +71,5 @@ namespace waterSim::sim{
         void updateGraphics();
     };
 
-    template<typename T>
-    class threadSafeQueue{
-    private:
-        std::queue<T> queue;
-        std::mutex mutex;
-    public:
-        void push(T& t){
-            mutex.lock();
-            queue.push(t);
-            mutex.unlock();
-        }
-        void push(T&& t){
-            mutex.lock();
-            queue.push(std::move(t));
-            mutex.unlock();
-        }
-        T pop(){
-            while(true){
-                mutex.lock();
-                if(queue.empty()){
-                    mutex.unlock();
-                    std::this_thread::sleep_for(std::chrono::milliseconds(100));
-                } else {
-                    break;
-                }
-            }
-            T front = queue.front();
-            queue.pop();
-            mutex.unlock();
-            return front;
-        }
-    };
+
 }

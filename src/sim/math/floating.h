@@ -5,6 +5,7 @@
 #endif
 
 #ifdef DOUBLE_PRECISION
+#define IS_FLOAT false
 #define FLOAT double
 #define SQRT sqrt
 #define SIN sin
@@ -19,6 +20,7 @@
 #define UNIFORM_RANDOM curand_uniform_double
 #endif
 #else
+#define IS_FLOAT true
 #define FLOAT float
 #define SQRT sqrtf
 #define SIN sinf

@@ -12,6 +12,7 @@ namespace waterSim::ui {
         window(int h, int w);
         ~window();
         void run();
+        void singleFrame();
         [[nodiscard]] bool isRunning() const { return running; }
         [[nodiscard]] std::atomic<bool>& getRunningObj() {return running;}
     private:
@@ -20,6 +21,6 @@ namespace waterSim::ui {
         SDL_Window* windowPtr;
 
         void handleEvent(const SDL_Event& event);
-        void mainLoop();
+        void mainLoop(SDL_Event& event);
     };
 }

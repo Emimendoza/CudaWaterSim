@@ -1,8 +1,8 @@
 cmake_minimum_required(VERSION 3.26)
 project(CudaWaterSim CUDA CXX)
 
-set(CMAKE_CUDA_STANDARD 17)
-set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CUDA_STANDARD 20)
+set(CMAKE_CXX_STANDARD 20)
 
 # Define if you want to use double precision
 # add_compile_definitions(DOUBLE_PRECISION)
@@ -69,8 +69,8 @@ add_executable(CudaWaterSim src/utils.h
         src/sim/point.cuh
         src/sim/modifierI.cuh
         src/sim/collisionI.cuh
-        src/sim/controller.cuh
-        src/sim/controller.cu
+        src/sim/controller/controller.cuh
+        src/sim/controller/controller.cu
         src/sim/math/floating.h
         src/sim/colliders/always.cuh
         src/sim/colliders/spherical.cuh
@@ -84,7 +84,12 @@ add_executable(CudaWaterSim src/utils.h
         src/ui/window.h
         src/main.cu
         src/ui/platform_specific.h
-        src/sim/constants.h)
+        src/sim/constants.h
+        src/sim/controller/threadSafeQueue.h
+        src/sim/controller/file.cpp
+        src/sim/controller/file.h
+        src/sim/controller/bakedPoint.h
+        src/sim/math/vec3Primitive.h)
 
 set_target_properties(CudaWaterSim PROPERTIES
         CUDA_SEPARABLE_COMPILATION ON)
